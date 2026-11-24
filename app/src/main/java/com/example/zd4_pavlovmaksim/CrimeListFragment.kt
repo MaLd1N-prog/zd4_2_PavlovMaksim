@@ -84,7 +84,7 @@ class CrimeListFragment : Fragment() {
             titleTextView.text = crime.title.ifBlank { getString(R.string.untitled_crime) }
             dateTextView.text =
                 android.text.format.DateFormat.format("EEE, MMM dd yyyy", crime.date)
-            // Выбранный подозреваемый виден прямо в списке (LiveData обновит его сама)
+
             suspectTextView.text =
                 if (crime.suspect.isBlank()) getString(R.string.crime_report_no_suspect)
                 else getString(R.string.crime_report_suspect, crime.suspect)

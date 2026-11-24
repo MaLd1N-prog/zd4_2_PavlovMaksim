@@ -40,7 +40,7 @@ class CrimeFragment : Fragment() {
     private var suspectPhone: String = ""
     private var contactId: Long = -1L
 
-    // Задание 4.2: runtime-разрешение на чтение контактов (для номера телефона)
+    // runtime-разрешение на чтение контактов (для номера телефона)
     private val requestContactsPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
             if (granted && contactId >= 0) loadPhoneNumber()
@@ -95,7 +95,7 @@ class CrimeFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        // Неявный интент №1: отправка отчёта (ACTION_SEND + список выбора)
+        //  (ACTION_SEND + список выбора)
         reportButton.setOnClickListener {
             if (!::crime.isInitialized) return@setOnClickListener
             Intent(Intent.ACTION_SEND).apply {
@@ -107,20 +107,20 @@ class CrimeFragment : Fragment() {
             }
         }
 
-        // Неявный интент №2: выбор подозреваемого из адресной книги (ACTION_PICK)
+        //  выбор подозреваемого из адресной книги (ACTION_PICK)
         suspectButton.apply {
             val pickContactIntent =
                 Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI)
             setOnClickListener {
                 startActivityForResult(pickContactIntent, REQUEST_CONTACT)
             }
-            // п.8 методички: если приложения контактов нет — блокируем кнопку
+            // если приложения контактов нет — блокируем кнопку
             val resolvedActivity = requireActivity().packageManager
                 .resolveActivity(pickContactIntent, PackageManager.MATCH_DEFAULT_ONLY)
             isEnabled = resolvedActivity != null
         }
 
-        // Задание 4.2: неявный интент №3 — ACTION_DIAL (безопаснее ACTION_CALL)
+        //  неявный интент №3 — ACTION_DIAL (безопаснее ACTION_CALL)
         callButton.setOnClickListener {
             val dialIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$suspectPhone"))
             if (suspectPhone.isNotBlank() &&
